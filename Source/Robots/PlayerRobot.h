@@ -29,16 +29,25 @@ protected:
 	void TurnAtRate(float Rate);
 	void LookUpAtRate(float Rate);
 
-	void OnFire();
+	void BeginFireing();
+
+	void EndFireing();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class AWeapon* Weapon;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	virtual AWeapon* GetWeapon();
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	FORCEINLINE class UCameraComponent* GetPlayerCameraComponent() const { return PlayerCameraComponent; }
+
+
 
 	
 	

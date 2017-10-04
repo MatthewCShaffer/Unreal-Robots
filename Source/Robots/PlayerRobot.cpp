@@ -3,7 +3,7 @@
 #include "PlayerRobot.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Engine/Engine.h"
+#include "Weapon.h"
 
 
 // Sets default values
@@ -16,6 +16,10 @@ APlayerRobot::APlayerRobot()
 	PlayerCameraComponent->SetupAttachment(GetCapsuleComponent());
 	PlayerCameraComponent->RelativeLocation = GetPawnViewLocation(); // Position the camera
 	PlayerCameraComponent->bUsePawnControlRotation = true;
+
+	UWorld* const World = GetWorld();
+	if (World != NULL)
+		Weapon = World->SpawnActor<AWeapon>();
 }
 
 // Called when the game starts or when spawned
@@ -48,7 +52,8 @@ void APlayerRobot::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
-	PlayerInputComponent->BindAction("Fire", IE_Released, this, &APlayerRobot::OnFire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APlayerRobot::BeginFireing);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &APlayerRobot::EndFireing);
 
 }
 
@@ -70,10 +75,25 @@ void APlayerRobot::MoveRight(float Value)
 	}
 }
 
-void APlayerRobot::OnFire()
+void APlayerRobot::BeginFireing()
 {
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Bang!"));
+	if (Weapon)
+	{
+		Weapon->BeginFireing();
+	}
+}
+
+void APlayerRobot::EndFireing()
+{
+	if (Weapon)
+	{
+		Weapon->EndFireing();
+	}
+}
+
+AWeapon* APlayerRobot::GetWeapon()
+{
+	return Weapon;
 }
 
 

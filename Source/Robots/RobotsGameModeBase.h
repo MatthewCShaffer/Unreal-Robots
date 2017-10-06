@@ -14,7 +14,7 @@ class ROBOTS_API ARobotsGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-	
-	
+public:
+	ARobotsGameModeBase();
 	
 };

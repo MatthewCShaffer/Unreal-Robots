@@ -4,6 +4,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Weapon.h"
+#include "DebugWeapon.h"
 
 
 // Sets default values
@@ -19,7 +20,7 @@ APlayerRobot::APlayerRobot()
 
 	UWorld* const World = GetWorld();
 	if (World != NULL)
-		Weapon = World->SpawnActor<AWeapon>();
+		Weapon = World->SpawnActor<ADebugWeapon>();
 }
 
 // Called when the game starts or when spawned

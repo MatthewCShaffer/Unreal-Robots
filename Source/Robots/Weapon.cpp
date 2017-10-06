@@ -11,13 +11,8 @@ AWeapon::AWeapon()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	clipAmmo = clipSize;
-	extraAmmo = maxExtraAmmo;
-
 	bReloading = false;
 	bWaitingToRefire = false;
-
-	refireTime = 0.5f;
 
 }
 
@@ -26,15 +21,16 @@ void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Red, FString::FromInt(clipAmmo) + FString::FromInt(extraAmmo));
-	
+	clipAmmo = clipSize;
+	extraAmmo = maxExtraAmmo;
+
 }
 
 // Called every frame
 void AWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 
 }
 
@@ -90,8 +86,6 @@ void AWeapon::Fire()
 		RemoveAmmo(fireCost, true);
 		if (!isWaitingToRefire() && refireTime)
 		{
-			if (GEngine)
-				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, TEXT("Waiting to fire!!"));
 			bWaitingToRefire = true;
 			GetWorldTimerManager().SetTimer(refireTimer, this, &AWeapon::OnRefireReady, refireTime);
 		}
@@ -105,15 +99,15 @@ void AWeapon::Fire()
 void AWeapon::doFire()
 {
 	if (GEngine)
+	{
 		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, TEXT("Bang!"));
+	}
 }
 
 void AWeapon::OnRefireReady()
 {
 	GetWorldTimerManager().ClearTimer(refireTimer);
 	bWaitingToRefire = false;
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, TEXT("Ready To Fire!"));
 	CheckForRefire();
 }
 
@@ -122,8 +116,6 @@ void AWeapon::reload()
 {
 	if (!isReloading() && extraAmmo > 0 && !isClipFull())
 	{
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, TEXT("Reloading!"));
 		if (reloadTime)
 		{
 			bReloading = true;
@@ -141,8 +133,6 @@ void AWeapon::OnReload()
 	GetWorldTimerManager().ClearTimer(reloadTimer);
 	refillClip();
 	bReloading = false;
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, TEXT("Reloaded!"));
 	CheckForRefire();
 }
 
@@ -204,7 +194,7 @@ void AWeapon::RemoveAmmo(int32 removedAmmo, bool useClipAmmo)
 
 		extraAmmo = FMath::Clamp(extraAmmo - removedAmmo, 0, maxExtraAmmo);
 
-		checkForceReload();
+		//checkForceReload(); Auto reload when after last show if you dont have enougth ammo, not sure if I like
 	}
 }
 

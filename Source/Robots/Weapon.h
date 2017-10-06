@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Weapon.generated.h"
 
-UCLASS()
+UCLASS(abstract)
 class ROBOTS_API AWeapon : public AActor
 {
 	GENERATED_BODY()
@@ -63,8 +63,10 @@ protected:
 
 	void checkForceReload();
 
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	bool isReloading();
 
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	bool isWaitingToRefire();
 
 	void refillClip();
@@ -96,10 +98,13 @@ public:
 
 	virtual void RemoveAmmo(int32 ammo, bool useClipAmmo);
 
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	virtual int32 getTotalAmmo();
 
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	virtual int32 getClipAmmo();
 
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	virtual int32 getExtraAmmo();
 
 	virtual void BeginFireing();

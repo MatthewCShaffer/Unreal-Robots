@@ -3,11 +3,13 @@
 #include "RobotsGameModeBase.h"
 #include "UObject/ConstructorHelpers.h"
 #include "PlayerRobot.h"
+#include "GameFramework/HUD.h"
 
 ARobotsGameModeBase::ARobotsGameModeBase()
 	: Super()
 {
-	DefaultPawnClass = APlayerRobot::StaticClass();;
+	DefaultPawnClass = APlayerRobot::StaticClass();
+
 
 }
 

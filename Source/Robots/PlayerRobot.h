@@ -36,6 +36,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
 		class AWeapon* Weapon;
 
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

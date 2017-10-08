@@ -5,6 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Weapon.h"
 #include "DebugWeapon.h"
+#include "Components/SkeletalMeshComponent.h"
 
 
 // Sets default values
@@ -21,6 +22,18 @@ APlayerRobot::APlayerRobot()
 	UWorld* const World = GetWorld();
 	if (World != NULL)
 		Weapon = World->SpawnActor<ADebugWeapon>();
+
+	FirstPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));
+	FirstPersonMesh->SetOnlyOwnerSee(true);
+	FirstPersonMesh->SetupAttachment(PlayerCameraComponent);
+	FirstPersonMesh->bCastDynamicShadow = false;
+	FirstPersonMesh->CastShadow = false;
+	FirstPersonMesh->RelativeRotation = FRotator(1.9f, -19.19f, 5.2f);
+	FirstPersonMesh->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);
+
+	ThirdPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh3P"));
+	ThirdPersonMesh->SetOwnerNoSee(true);
+	ThirdPersonMesh->SetupAttachment(GetCapsuleComponent());
 }
 
 // Called when the game starts or when spawned

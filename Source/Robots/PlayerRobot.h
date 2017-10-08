@@ -15,6 +15,12 @@ class ROBOTS_API APlayerRobot : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* PlayerCameraComponent;
 
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* ThirdPersonMesh;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* FirstPersonMesh;
+
 public:
 	// Sets default values for this character's properties
 	APlayerRobot();

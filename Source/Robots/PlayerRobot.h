@@ -40,6 +40,9 @@ protected:
 	void EndFireing();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		TSubclassOf<class AWeapon> DefaultWeaponClass;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Weapon)
 		class AWeapon* Weapon;
 
 

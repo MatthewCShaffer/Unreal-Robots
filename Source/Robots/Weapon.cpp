@@ -3,6 +3,7 @@
 #include "Weapon.h"
 #include "Public/TimerManager.h"
 #include "Engine/Engine.h"
+#include "Components/SkeletalMeshComponent.h"
 
 
 // Sets default values
@@ -13,6 +14,10 @@ AWeapon::AWeapon()
 
 	bReloading = false;
 	bWaitingToRefire = false;
+
+	GunMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMesh"));
+	GunMesh->SetOwnerNoSee(true);
+	GunMesh->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepWorldTransform);
 
 }
 

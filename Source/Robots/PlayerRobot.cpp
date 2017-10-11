@@ -19,10 +19,6 @@ APlayerRobot::APlayerRobot()
 	PlayerCameraComponent->RelativeLocation = GetPawnViewLocation(); // Position the camera
 	PlayerCameraComponent->bUsePawnControlRotation = true;
 
-	UWorld* const World = GetWorld();
-	if (World != NULL)
-		Weapon = World->SpawnActor<ADebugWeapon>();
-
 	FirstPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));
 	FirstPersonMesh->SetOnlyOwnerSee(true);
 	FirstPersonMesh->SetupAttachment(PlayerCameraComponent);
@@ -31,15 +27,25 @@ APlayerRobot::APlayerRobot()
 	FirstPersonMesh->RelativeRotation = FRotator(1.9f, -19.19f, 5.2f);
 	FirstPersonMesh->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);
 
-	ThirdPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh3P"));
-	ThirdPersonMesh->SetOwnerNoSee(true);
-	ThirdPersonMesh->SetupAttachment(GetCapsuleComponent());
+	GetMesh()->SetOwnerNoSee(true);
 }
+
 
 // Called when the game starts or when spawned
 void APlayerRobot::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UWorld* const World = GetWorld();
+
+	if (World && DefaultWeaponClass)
+	{
+
+		Weapon = World->SpawnActor<AWeapon>(DefaultWeaponClass, FVector(0,0,0), FRotator::ZeroRotator);
+		//UE_LOG(LogTemp, Warning, TEXT(Weapon));
+		Weapon->SetOwner(this);
+		Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("Grip_point"));
+	}
 	
 }
 
@@ -93,7 +99,7 @@ void APlayerRobot::BeginFireing()
 {
 	if (Weapon)
 	{
-		Weapon->BeginFireing();
+		Cast<AWeapon>(Weapon)->BeginFireing();
 	}
 }
 
@@ -101,7 +107,7 @@ void APlayerRobot::EndFireing()
 {
 	if (Weapon)
 	{
-		Weapon->EndFireing();
+		Cast<AWeapon>(Weapon)->EndFireing();
 	}
 }
 

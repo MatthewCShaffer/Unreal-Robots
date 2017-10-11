@@ -15,7 +15,11 @@ public:
 	// Sets default values for this actor's properties
 	AWeapon();
 
+
 private: 
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* GunMesh;
+
 	FTimerHandle refireTimer;
 
 	FTimerHandle reloadTimer;

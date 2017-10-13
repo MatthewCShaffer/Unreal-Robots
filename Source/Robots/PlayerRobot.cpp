@@ -44,7 +44,8 @@ void APlayerRobot::BeginPlay()
 		Weapon = World->SpawnActor<AWeapon>(DefaultWeaponClass, FVector(0,0,0), FRotator::ZeroRotator);
 		//UE_LOG(LogTemp, Warning, TEXT(Weapon));
 		Weapon->SetOwner(this);
-		Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("Grip_point"));
+
+		attachCurrentWeapon();
 	}
 	
 }
@@ -114,6 +115,19 @@ void APlayerRobot::EndFireing()
 AWeapon* APlayerRobot::GetWeapon()
 {
 	return Weapon;
+}
+
+void APlayerRobot::attachCurrentWeapon()
+{
+	if (Weapon)
+	{
+		Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("Grip_point"));
+		USkeletalMeshComponent* FirstPersonGunMesh = Weapon->GetFirstPersonGunMesh();
+		if (FirstPersonGunMesh && FirstPersonMesh)
+		{
+			FirstPersonGunMesh->AttachToComponent(FirstPersonMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("Grip_point"));
+		}
+	}
 }
 
 

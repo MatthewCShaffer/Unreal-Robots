@@ -16,8 +16,19 @@ AWeapon::AWeapon()
 	bWaitingToRefire = false;
 
 	GunMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMesh"));
-	GunMesh->SetOwnerNoSee(true);
-	GunMesh->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepWorldTransform);
+	if (GunMesh) {
+		GunMesh->SetOwnerNoSee(true);
+		RootComponent = GunMesh;
+	}
+
+
+	FirstPersonGunMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonGunMesh"));
+	if (FirstPersonGunMesh)
+	{
+		FirstPersonGunMesh->SetOnlyOwnerSee(true);
+		FirstPersonGunMesh->SetupAttachment(GetRootComponent());
+	}
+
 
 }
 
@@ -29,6 +40,7 @@ void AWeapon::BeginPlay()
 	clipAmmo = clipSize;
 	extraAmmo = maxExtraAmmo;
 
+
 }
 
 // Called every frame
@@ -36,7 +48,11 @@ void AWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
 
+USkeletalMeshComponent* AWeapon::GetFirstPersonGunMesh()
+{
+	return FirstPersonGunMesh;
 }
 
 int32 AWeapon::getTotalAmmo()

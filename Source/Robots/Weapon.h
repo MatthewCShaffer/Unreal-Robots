@@ -20,6 +20,9 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class USkeletalMeshComponent* GunMesh;
 
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* FirstPersonGunMesh;
+
 	FTimerHandle refireTimer;
 
 	FTimerHandle reloadTimer;
@@ -114,5 +117,7 @@ public:
 	virtual void BeginFireing();
 
 	virtual void EndFireing();
+
+	USkeletalMeshComponent* GetFirstPersonGunMesh();
 
 };

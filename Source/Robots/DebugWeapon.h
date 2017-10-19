@@ -17,6 +17,12 @@ class ROBOTS_API ADebugWeapon : public AWeapon
 public:
 	// Sets default values for this actor's properties
 	ADebugWeapon();
-	
+
+	void BeginFireing() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		TSubclassOf<class ARobotProjectile> ProjectileClass;
+
+	void doFire() override;
 	
 };

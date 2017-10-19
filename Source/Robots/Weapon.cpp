@@ -84,7 +84,6 @@ bool AWeapon::CanFire()
 void AWeapon::BeginFireing()
 {
 	bFireing = true;
-	Fire();
 }
 
 void AWeapon::EndFireing()

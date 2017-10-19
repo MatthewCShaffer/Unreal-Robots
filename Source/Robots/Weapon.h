@@ -17,12 +17,6 @@ public:
 
 
 private: 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class USkeletalMeshComponent* GunMesh;
-
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class USkeletalMeshComponent* FirstPersonGunMesh;
-
 	FTimerHandle refireTimer;
 
 	FTimerHandle reloadTimer;
@@ -46,6 +40,12 @@ private:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* GunMesh;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* FirstPersonGunMesh;
 
 
 	//The maximum ammo this weapon can have in addition to clip ammo

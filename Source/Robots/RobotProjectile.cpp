@@ -15,11 +15,12 @@ ARobotProjectile::ARobotProjectile()
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	// Set the sphere's collision radius.
 	CollisionComponent->InitSphereRadius(15.0f);
+	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	// Set the root component to be the collision component.
 	RootComponent = CollisionComponent;
 
 
-	OnActorHit.AddDynamic(this, &ARobotProjectile::OnHit);
+
 
 
 
@@ -34,6 +35,8 @@ ARobotProjectile::ARobotProjectile()
 	ProjectileMovementComponent->ProjectileGravityScale = 0;
 
 	InitialLifeSpan = 3.0f;
+
+	CollisionComponent->OnComponentHit.AddDynamic(this, &ARobotProjectile::OnHit);
 
 }
 
@@ -52,12 +55,11 @@ void ARobotProjectile::Tick(float DeltaTime)
 
 }
 
-void ARobotProjectile::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
+void ARobotProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
 	UE_LOG(LogTemp, Log, TEXT("Hit A thing"));
-	if (OtherActor != this)
+	if (OtherComponent != nullptr && OtherComponent != HitComponent)
 	{
-		
-		UE_LOG(LogTemp, Log, TEXT("Hit Actor: %s"), *OtherActor->GetName());
+		UE_LOG(LogTemp, Log, TEXT("Hit some other thing"));
 	}
 }
